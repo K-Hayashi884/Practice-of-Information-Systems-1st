@@ -8,6 +8,7 @@ cd ./Practice-of-Information-Systems-1st
 conda create -n <好きな仮想環境名> python=3.9
 conda activate <仮想環境名>
 conda env create -f requirements.yaml
+git checkout -b <好きなブランチ名>
 ```
 
 # パッケージインストールしたら

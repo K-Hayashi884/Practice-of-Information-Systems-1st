@@ -1,46 +1,36 @@
 from flask import request, jsonify
 import usecase_test as usecase
 
-class storeRequest:
-    store_id: int
-    def __init__(self,id):
-        store_id = id
+def convertObjectToDict(obj):
+    if type(obj) is list:
+        for i,value in enumerate(obj):
+            obj[i] = convertObjectToDict(value)
+    elif type(obj) is dict:
+        for key, value in obj.items():
+            obj[key] = convertObjectToDict(value)
+    elif type(obj) in (int, float, str, bool):
+        return obj
+    else:
+        return convertObjectToDict(obj.__dict__)
+    return obj
 
-class storeRespond:
-    test: int
-    def __init__(self, t):
-        test = t
-    def json(self):
-        return jsonify({
-            "test" : self.test,
-        })
+def toJson(obj):
+    return jsonify(convertObjectToDict(obj))
 
-class itemRequest:
-    item_id: int
-    def __init__(id):
-        item_id = id
-        
-class itemRespond:
-    test: int
-    def __init__(self, t):
-        test = t
-    def json(self):
-        return jsonify({
-            "test" : self.test,
-        })
-    
 def searchByStore(request):
     store_id = request.args.get("id", type=int)
-    req = storeRequest(
-        store_id = store_id
+    req = usecase.storeRequest(
+        id = store_id
     )
     res = usecase.searchByStore(req)
-    return jsonify({"store_id": store_id})
+    res = toJson(res)
+    return res
 
 def searchByItem(request):
     item_id = request.args.get("id", type=int)
-    req = itemRequest(
-        item_id = item_id
+    req = usecase.itemRequest(
+        id = item_id
     )
     res = usecase.searchByItem(req)
-    return jsonify({"item_id": item_id})
+    res = toJson(res)
+    return res

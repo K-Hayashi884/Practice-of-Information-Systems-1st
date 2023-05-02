@@ -6,6 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Top page</title>
 		<link rel="stylesheet" href="top.css" />
+		<script src="../js/top.js"></script>
 	</head>
 	<body>
 		<div class="header">
@@ -45,12 +46,13 @@
 						</button>
 					</div>
 
-					<div class="map">
+					<div id="map" class="map">
 						<h3>地図から検索</h3>
 						<div class="map-flame">ここにgoogle mapを入れて地図表示する</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2qsswk4D5dFzby5OYzRRr_CpWdNZ6X94&callback=initMap"></script>
 	</body>
 </html>

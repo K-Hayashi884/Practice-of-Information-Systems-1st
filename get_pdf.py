@@ -3,7 +3,10 @@ def get_urls():
   import requests
   from bs4 import BeautifulSoup
 
-  html = requests.get('★公式サイトURL')
+  url = "https://tokubai.co.jp/%E3%83%A9%E3%82%A4%E3%83%95/9470/leaflets/41074828?from=leaflet_navigation&origin_shop_id=9470"
+
+
+  html = requests.get(url)
   soup = BeautifulSoup(html.text, 'html.parser')
 
   # ★以下は実際のHTML構成に合わせて実装する
@@ -20,7 +23,7 @@ def get_urls():
     url_list.append(url_info)
 
   return url_list
-
+"""
 # 未解析のチラシURLを取得
 def get_new_urls(url_list):
   # urls.txt読込
@@ -106,3 +109,4 @@ slack_notice(results)
 
 shutil.rmtree('pdf/')
 shutil.rmtree('jpg/')
+"""

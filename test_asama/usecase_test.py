@@ -43,19 +43,24 @@ def get_dict_item_name_to_id():
         item_name_to_id[item[1]] = item[0]
     return item_name_to_id
 
-def add_item_by_name(handlings:list[tuple[str, str, int]]):
+def add_items_by_name(store_name:str, items:list[tuple[str, int]]):
     store_name_to_id = get_dict_store_name_to_id()
     item_name_to_id = get_dict_item_name_to_id()
+    store_id = store_name_to_id.get(store_name, -1)
+    if store_id >= 0:
+        for item in items:
+            item_id = item_name_to_id.get(item[0], -1)
+            if item_id < 0:
+                item_id = database.add_item(item[0])
+                item_name_to_id[item[0]] = item_id
+            database.add_handling(store_id, item_id)
 
-    for handling in handlings:
-        store_id = store_name_to_id.get(handling[0], -1)
-        item_id = item_name_to_id.get(handling[1], -1)
-        if store_id < 0:
+def add_stores(stores:list[tuple[str, float, float, str]]):
+    store_name_to_id = get_dict_store_name_to_id()
+    for store in stores:
+        if store_name_to_id(stores[0]) >= 0:
             continue
-        if item_id < 0:
-            item_id = database.add_item(handling[1])
-            item_name_to_id[handling[1]] = item_id
-        database.add_handling(store_id, item_id)
+        database.add_store(store[0], store[1], store[2], store[3])
 
 def clear_item():
     database.clear_item()

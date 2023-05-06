@@ -51,6 +51,13 @@ def add_handling(store_id: int, item_id: int):
     session.add(handling)
     session.commit()
 
+def add_store(store_name: str, latitude: float, longitude: float, url:str):
+    session = get_session()
+    store = Store(name=store_name, latitude=latitude, longitude=longitude, flyer_url = url)
+    session.add(store)
+    session.commit()
+    return store.id
+
 def clear_item():
     session = get_session()
     session.query(Item).delete()

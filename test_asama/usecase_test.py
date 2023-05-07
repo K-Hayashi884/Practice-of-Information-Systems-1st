@@ -1,33 +1,28 @@
 import database_test as database
-class storeRequest:
-    id: int
-    def __init__(self,id):
-        self.id = id
 
-class storeResponse:
-    store_names: list
-    def __init__(self, store_name_list):
-        self.store_names = store_name_list
+class RecipeRequest:
+    latitude: float
+    longitude: float
+    time: int
 
-class itemRequest:
-    id: int
-    def __init__(self,id):
-        self.id = id
+class Store:
+    name:str
+    latitude:str
+    longitude:str
+    items:list[str]
 
-class itemResponse:
-    test: int
-    def __init__(self, test):
-        self.test = test
+class Recipe:
+    name:str
+    time:str
+    url:str
+    stores:list[Store]
+    def __init__(self, stores: list[Store]):
+        self.stores = stores
 
-def searchByStore(request: storeRequest) -> storeResponse:
-    result = database.searchByStore(request.id)
-    response = storeResponse(result)
-    return response
-
-def searchByItem(request: itemRequest) -> itemResponse:
-    return itemResponse(
-        test = request.id
-    )
+class RecipeResponse:
+    recipes: list[Recipe]
+    def __init__(self, recipes: list[Recipe]):
+        self.recipes = recipes
 
 def get_dict_store_name_to_id():
     stores = database.get_store()
@@ -61,6 +56,9 @@ def add_stores(stores:list[tuple[str, float, float, str]]):
         if store_name_to_id(stores[0]) >= 0:
             continue
         database.add_store(store[0], store[1], store[2], store[3])
+
+def get_recipe():
+    recipes = database.get_recipe()
 
 def clear_item():
     database.clear_item()

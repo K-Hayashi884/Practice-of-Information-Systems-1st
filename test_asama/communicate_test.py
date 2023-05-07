@@ -17,6 +17,19 @@ def convertObjectToDict(obj):
 def toJson(obj):
     return jsonify(convertObjectToDict(obj))
 
+def get_recipe(request):
+    latitude = request.args.get("latitude", type=float)
+    longitude = request.args.get("longitude", type=float)
+    time = request.args.get("time", type=int)
+    req = usecase.RecipeRequest(
+        latitude = latitude,
+        longitude = longitude,
+        time = time
+    )
+    res = usecase.get_recipe(req)
+    res = toJson(res)
+    return res
+
 def searchByStore(request):
     store_id = request.args.get("id", type=int)
     req = usecase.storeRequest(

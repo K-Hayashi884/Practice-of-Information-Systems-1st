@@ -1,15 +1,16 @@
 import sqlalchemy
 import sqlalchemy.orm
-from db_Init import Store, Item, Recipe, Ingredient, Handling, Need
-
-def get_session():
-    engine = sqlalchemy.create_engine('sqlite:///db.sqlite3', echo=True)
-    Session = sqlalchemy.orm.sessionmaker(bind=engine)
-    session = Session()
-    return session
+from db_model import (
+    session,
+    Store,
+    Item,
+    Handling,
+    Recipe,
+    Ingredient,
+    Need
+)
 
 def get_store(id: int = -1, name: str = ""):
-    session = get_session()
     if id == -1 and name == "":
         stores = session.query(Store).all()
     elif id == -1:
@@ -24,7 +25,6 @@ def get_store(id: int = -1, name: str = ""):
     return stores
 
 def get_item(id: int = -1, name: str = ""):
-    session = get_session()
     if id == -1 and name == "":
         items = session.query(Item).all()
     elif id == -1:
@@ -38,26 +38,26 @@ def get_item(id: int = -1, name: str = ""):
 
     return result
 
+def get_recipe():
+    recipes = session.query(Recipe).all()
+    return recipes
+
 def add_item(name: str):
-    session = get_session()
     item = Item(name=name)
     session.add(item)
     session.commit()
     return item.id
 
 def add_handling(store_id: int, item_id: int):
-    session = get_session()
     handling = Handling(store_id=store_id, item_id=item_id)
     session.add(handling)
     session.commit()
 
 def add_store(store_name: str, latitude: float, longitude: float, url:str):
-    session = get_session()
     store = Store(name=store_name, latitude=latitude, longitude=longitude, flyer_url = url)
     session.add(store)
     session.commit()
     return store.id
 
 def clear_item():
-    session = get_session()
     session.query(Item).delete()

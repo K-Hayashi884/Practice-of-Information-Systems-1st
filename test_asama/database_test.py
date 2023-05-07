@@ -59,5 +59,6 @@ def add_store(store_name: str, latitude: float, longitude: float, url:str):
     session.commit()
     return store.id
 
-def clear_item():
+def clear_item_table():
     session.query(Item).delete()
+    session.query(Handling).delete()

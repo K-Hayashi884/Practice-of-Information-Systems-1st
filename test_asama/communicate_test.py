@@ -1,6 +1,7 @@
 from flask import request, jsonify
 import usecase_test as usecase
 
+# Jsonへの変換のために, オブジェクトを辞書/リスト/プリミティブ型のみに変換する
 def convertObjectToDict(obj):
     if type(obj) is list:
         for i,value in enumerate(obj):
@@ -14,9 +15,11 @@ def convertObjectToDict(obj):
         return convertObjectToDict(obj.__dict__)
     return obj
 
+# オブジェクトをJsonに変換する
 def toJson(obj):
     return jsonify(convertObjectToDict(obj))
 
+# 緯度経度, 希望時間を受け取り適切なレシピを返す
 def get_recipe(request):
     latitude = request.args.get("latitude", type=float)
     longitude = request.args.get("longitude", type=float)
@@ -27,23 +30,5 @@ def get_recipe(request):
         time = time
     )
     res = usecase.get_recipe(req)
-    res = toJson(res)
-    return res
-
-def searchByStore(request):
-    store_id = request.args.get("id", type=int)
-    req = usecase.storeRequest(
-        id = store_id
-    )
-    res = usecase.searchByStore(req)
-    res = toJson(res)
-    return res
-
-def searchByItem(request):
-    item_id = request.args.get("id", type=int)
-    req = usecase.itemRequest(
-        id = item_id
-    )
-    res = usecase.searchByItem(req)
     res = toJson(res)
     return res

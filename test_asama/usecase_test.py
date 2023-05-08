@@ -1,28 +1,51 @@
-import database_test as database
+import test_asama.database_test as database
 
 class RecipeRequest:
     latitude: float
     longitude: float
     time: int
+    def __init__(self, latitude:float, longitude:float, time:int):
+        self.latitude = latitude
+        self.longitude = longitude
+        self.time = time
 
 class Store:
     name:str
     latitude:str
     longitude:str
+    flyer_url:str
     items:list[str]
+    def __init__(self, name:str, latitude:float, longitude:float, flyer_url:str, items:list[str]):
+        self.name = name
+        self.latitude = latitude
+        self.longitude = longitude
+        self.flyer_url = flyer_url
+        self.items = items
 
 class Recipe:
     name:str
-    time:str
+    time:int
     url:str
     stores:list[Store]
-    def __init__(self, stores: list[Store]):
+    def __init__(self, name:str, time:int, url:str, stores: list[Store]):
+        self.name = name
+        self.time = time
+        self.url = url
         self.stores = stores
 
 class RecipeResponse:
     recipes: list[Recipe]
     def __init__(self, recipes: list[Recipe]):
         self.recipes = recipes
+
+class StoreInfoRequest:
+    latitude: float
+    longitude: float
+    length: float
+    def __init__(self, latitude:float, longitude:float, length:float):
+        self.latitude = latitude
+        self.longitude = longitude
+        self.length = length
 
 # 店名からDBに登録されているidを求める辞書を返す
 def get_dict_store_name_to_id():
@@ -64,6 +87,45 @@ def add_stores(stores:list[tuple[str, float, float, str]]):
 # 最適なレシピを求める
 def get_recipe():
     recipes = database.get_recipe()
+
+# 店名の一覧を求める
+def get_store_names():
+    stores = database.get_store()
+    store_names = []
+    for store in stores:
+        store_names.append(store[1])
+    return store_names
+
+# 店名,緯度経度,扱っている特売商品名を求める
+def get_store_info(request:StoreInfoRequest):
+    stores = database.get_store(
+        latitude=request.latitude,
+        longitude=request.longitude,
+        length=request.length
+    )
+    store_info_list = []
+    for store in stores:
+        id = store[0]
+        store_info_list.append(Store(
+            name = store[1],
+            latitude = store[2],
+            longitude = store[3],
+            flyer_url = store[4],
+            items = database.get_item_names_by_store_id(id)
+        ))
+    return store_info_list
+
+# 商品名の一覧を求める
+def get_item_names():
+    items = database.get_item()
+    item_names = []
+    for item in items:
+        item_names.append(item[1])
+    return item_names
+
+# 店名から商品一覧を求める
+def get_items_by_store(request):
+    a=1
 
 # 特売商品情報をリセットする
 def clear_item():

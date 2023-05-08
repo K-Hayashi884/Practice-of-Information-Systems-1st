@@ -1,5 +1,6 @@
 import csv
-from db_model import (
+import test_asama.usecase_test as usecase
+from test_asama.db_model import (
     session,
     Store,
     Item,
@@ -10,11 +11,29 @@ from db_model import (
 )
 
 def database_init():
-    input_store_from_csv(session)
-    input_recipe_from_csv(session)
-    print_all_store(session)
+    input_store_from_csv()
+    input_recipe_from_csv()
+    input_items_test()
 
-def input_store_from_csv(session):
+def input_items_test():
+    usecase.add_items("コープ岩倉",[
+        ("じゃがいも",100),
+        ("人参",100),
+        ("大根",100),
+        ("きゅうり",100),
+        ("トマト",100),
+    ])
+    usecase.add_items("エムジーショップ岩倉",[
+        ("きゅうり",100),
+        ("トマト",100),
+    ])
+    usecase.add_items("Aコープ岩倉",[
+        ("じゃがいも",100),
+        ("セロリ",100),
+        ("大根",100),
+    ])
+
+def input_store_from_csv():
     session.query(Store).delete()
     session.query(Item).delete()
     session.query(Handling).delete()
@@ -34,7 +53,7 @@ def input_store_from_csv(session):
         session.add_all(stores)
         session.commit()
 
-def input_recipe_from_csv(session):
+def input_recipe_from_csv():
 
     session.query(Recipe).delete()
     session.query(Ingredient).delete()
@@ -77,7 +96,7 @@ def input_recipe_from_csv(session):
     session.add_all(add_needs)
     session.commit()
 
-def print_all_store(session):
+def print_all_store():
     stores = session.query(Store).all()
     for store in stores:
         print(store.name)

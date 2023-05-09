@@ -7,13 +7,17 @@ app = Flask(__name__)
 def get_recipe_request():
     return communicate.get_recipe(request)
 
-@app.route('/store', methods=['GET'])
+@app.route('/store/names', methods=['GET'])
 def get_store_names_request():
     return communicate.get_store_names(request)
 
-@app.route('/store/info', methods=['GET'])
+@app.route('/store/all-info', methods=['GET'])
 def get_store_info_request():
     return communicate.get_store_info(request)
+
+@app.route('/store/info', methods=['GET'])
+def get_store_info_request():
+    return communicate.get_store_info_by_name(request)
 
 @app.route('/item', methods=['GET'])
 def get_item_names_request():

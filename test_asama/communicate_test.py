@@ -62,21 +62,14 @@ def get_store_info(request):
     return res
 
 # 名前で指定した店の情報と扱っている特売商品名を求める
-def get_store_info(request):
+def get_store_info_by_name(request):
     name = float(request.args.get("store_name", ""))
     res = usecase.get_store_info(name)
     res = toJson(res)
     return res
 
-# 登録されている特売商品名を求める
+# 登録されている特売商品名のリストを求める
 def get_item_names(request):
     res = usecase.get_item_names()
-    res = toJson(res)
-    return res
-
-# 店名から扱っている特売商品名を求める
-def get_items_by_store(request):
-    name = request.args.get("name", type=str)
-    res = usecase.get_items_by_store(name)
     res = toJson(res)
     return res

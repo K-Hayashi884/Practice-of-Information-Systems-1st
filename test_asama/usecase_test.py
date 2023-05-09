@@ -89,15 +89,11 @@ def get_recipe():
     recipes = database.get_recipe()
 
 # 店名の一覧を求める
-def get_store_names(request):
-    stores = database.get_store(
-        latitude=request.latitude,
-        longitude=request.longitude,
-        length=request.length
-    )
+def get_store_names(request:StoreInfoRequest):
+    stores = get_store_info(request)
     store_names = []
     for store in stores:
-        store_names.append(store[1])
+        store_names.append(store.name)
     return store_names
 
 # 店名,緯度経度,扱っている特売商品名を求める
@@ -138,10 +134,6 @@ def get_item_names():
     for item in items:
         item_names.append(item[1])
     return item_names
-
-# 店名から商品一覧を求める
-def get_items_by_store(request):
-    a=1
 
 # 特売商品情報をリセットする
 def clear_item():

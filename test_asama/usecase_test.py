@@ -89,14 +89,16 @@ def add_stores(stores:list[tuple[str, float, float, str]]):
         database.add_store(store[0], store[1], store[2], store[3])
 
 # 特売品のリストの中にどれだけ材料リストの要素が含まれるかを調べる
-def calc_simirality(ingredients:list[str], items:list[str]):
+def calc_simirality(ingredients:list[str], items:list[tuple[str,int]]):
     score = 0
+    store_list = []
     for ingredient in ingredients:
         for item in items:
-            if ingredient in item or item in ingredient:
+            if ingredient in item[0] or item[0] in ingredient:
                 score += 1
+                store_list.append((ingredient, item[1]))
     score /= len(ingredients)
-    return score
+    return score, store_list
 
 # 最適なレシピを求める
 def get_recipe(request:RecipeRequest):
@@ -109,20 +111,22 @@ def get_recipe(request:RecipeRequest):
         length=request.length
     ))
     items = []
-    for store in store_info:
+    for i,store in enumerate(store_info):
         for item in store.items:
-            items.append(item)
+            items.append((item,i))
     
     # レシピを取得
     recipes = database.get_recipe()
     recipe_info_list = []
     score_and_recipe = []
+    store_lists = [[]] * len(recipes)
 
     # 特売品が多く含まれる順にレシピをソート
     for i,recipe in enumerate(recipes):
         id = recipe[0]
         ingredients = database.get_ingredient_names_by_recipe_id(id)
-        score = calc_simirality(ingredients, items)
+        print(ingredients)
+        score, store_lists[i] = calc_simirality(ingredients, items)
         if score > 0:
             score_and_recipe.append((score,i))
     score_and_recipe.sort(reverse=True)
@@ -140,7 +144,24 @@ def get_recipe(request:RecipeRequest):
         ))
 
     # 特売品を販売しているスーパーで分ける
-    
+    for i, recipe in enumerate(recipe_info_list):
+        store_to_ingredients_dict: dict[int,list[str]] = {}
+        store_list = store_lists[score_and_recipe[i][1]]
+        for ingredient, store_idx in store_list:
+            if store_idx in store_to_ingredients_dict.keys():
+                store_to_ingredients_dict[store_idx].append(ingredient)
+            else:
+                store_to_ingredients_dict[store_idx] = [ingredient]
+        for store_idx, ingredient_list in store_to_ingredients_dict.items():
+            recipe_info_list[i].stores.append(
+                Store(
+                    name=store_info[store_idx].name,
+                    latitude=store_info[store_idx].latitude,
+                    longitude=store_info[store_idx].longitude,
+                    flyer_url=store_info[store_idx].flyer_url,
+                    items=ingredient_list
+                )
+            )
 
     return recipe_info_list
 

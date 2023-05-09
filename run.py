@@ -12,7 +12,7 @@ def get_store_names_request():
     return communicate.get_store_names(request)
 
 @app.route('/store/all-info', methods=['GET'])
-def get_store_info_request():
+def get_store_all_info_request():
     return communicate.get_store_info(request)
 
 @app.route('/store/info', methods=['GET'])

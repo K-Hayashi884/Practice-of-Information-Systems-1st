@@ -65,7 +65,17 @@ def get_item_names_by_store_id(id: int):
 
 def get_recipe():
     recipes = session.query(Recipe).all()
-    return recipes
+    result: list[tuple[int, str, int, str]] = []
+    for recipe in recipes:
+        result.append((recipe.id, recipe.name, recipe.time, recipe.url))
+    return result
+
+def get_ingredient_names_by_recipe_id(id: int):
+    ingredients = session.query(Ingredient).join(Need, Ingredient.id==Need.ingredient_id).filter(Need.recipe_id==id)
+    res = []
+    for ingredient in ingredients:
+        res.append(ingredient.name)
+    return res
 
 def add_item(name: str):
     item = Item(name=name)

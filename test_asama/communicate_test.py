@@ -23,10 +23,12 @@ def toJson(obj):
 def get_recipe(request):
     latitude = request.args.get("latitude", -1.0)
     longitude = request.args.get("longitude", -1.0)
+    length = float(request.args.get("length", 100000.0))
     time = request.args.get("time", 1000)
     req = usecase.RecipeRequest(
         latitude = latitude,
         longitude = longitude,
+        length = length,
         time = time
     )
     res = usecase.get_recipe(req)

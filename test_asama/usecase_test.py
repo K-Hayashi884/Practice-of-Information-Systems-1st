@@ -3,10 +3,12 @@ import test_asama.database_test as database
 class RecipeRequest:
     latitude: float
     longitude: float
+    length: float
     time: int
-    def __init__(self, latitude:float, longitude:float, time:int):
+    def __init__(self, latitude:float, longitude:float, length:float, time:int):
         self.latitude = latitude
         self.longitude = longitude
+        self.length = length
         self.time = time
 
 class Store:
@@ -26,11 +28,13 @@ class Recipe:
     name:str
     time:int
     url:str
+    ingredients:list[str]
     stores:list[Store]
-    def __init__(self, name:str, time:int, url:str, stores: list[Store]):
+    def __init__(self, name:str, time:int, url:str, ingredients:list[str], stores: list[Store]):
         self.name = name
         self.time = time
         self.url = url
+        self.ingredients = ingredients
         self.stores = stores
 
 class RecipeResponse:
@@ -85,8 +89,25 @@ def add_stores(stores:list[tuple[str, float, float, str]]):
         database.add_store(store[0], store[1], store[2], store[3])
 
 # 最適なレシピを求める
-def get_recipe():
+def get_recipe(request:RecipeRequest):
+    store_info = get_store_info(
+        StoreInfoRequest(
+        latitude=request.latitude,
+        longitude=request.longitude,
+        length=request.length
+    ))
     recipes = database.get_recipe()
+    recipe_info_list = []
+    for recipe in recipes:
+        id = recipe[0]
+        recipe_info_list.append(Recipe(
+            name = recipe[1],
+            time = recipe[2],
+            url = recipe[3],
+            ingredients = database.get_ingredient_names_by_recipe_id(id),
+            stores = []
+        ))
+    return recipe_info_list
 
 # 店名の一覧を求める
 def get_store_names(request:StoreInfoRequest):

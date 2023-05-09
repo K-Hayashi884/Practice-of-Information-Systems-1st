@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Top page</title>
+		<link rel="stylesheet" href="../stylesheets/top.css" />
+		<script type="text/javascript" src="../../jquery-3.6.4.min.js"></script>
+		<script src="../js/top.js"></script>
+		
+	</head>
+	<body>
+		<div class="header">
+			<div class="header-logo">近くのお買い得品と献立</div>
+		</div>
+
+		<div class="main">
+			<div class="copy-containts">
+				<div class="copy-txt">
+					以下の検索欄に探したい情報を打ち込んでください。
+				</div>
+			</div>
+			<div class="containts">
+				<div class="container">
+					<div class="grocery">
+						<h3>商品名から検索</h3>
+						<input type="search" />
+						<button class="btn grocery" type="buttun">
+							<div class="btn-messege">クリックして検索！</div>
+						</button>
+					</div>
+
+					<div class="store">
+						<h3>店舗名から検索</h3>
+						<input type="search" />
+						<button class="btn store" type="buttun">
+							<div class="btn-messege">クリックして検索！</div>
+						</button>
+					</div>
+
+					<div class="menu">
+						<h3>何時までにご飯を食べたい？</h3>
+						<input type="time" />
+						<button class="btn menu" type="buttun">
+							<div class="btn-messege">クリックして検索！</div>
+						</button>
+					</div>
+
+					<div class="map-area">
+						<h3>地図から検索</h3>
+						<div id="map" class="map"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2qsswk4D5dFzby5OYzRRr_CpWdNZ6X94&callback=initMap"></script>
+	</body>
+</html>

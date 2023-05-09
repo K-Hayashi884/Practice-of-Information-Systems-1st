@@ -88,25 +88,60 @@ def add_stores(stores:list[tuple[str, float, float, str]]):
             continue
         database.add_store(store[0], store[1], store[2], store[3])
 
+# 特売品のリストの中にどれだけ材料リストの要素が含まれるかを調べる
+def calc_simirality(ingredients:list[str], items:list[str]):
+    score = 0
+    for ingredient in ingredients:
+        for item in items:
+            if ingredient in item or item in ingredient:
+                score += 1
+    score /= len(ingredients)
+    return score
+
 # 最適なレシピを求める
 def get_recipe(request:RecipeRequest):
+    
+    # 周辺のスーパーの特売品一覧を生成
     store_info = get_store_info(
         StoreInfoRequest(
         latitude=request.latitude,
         longitude=request.longitude,
         length=request.length
     ))
+    items = []
+    for store in store_info:
+        for item in store.items:
+            items.append(item)
+    
+    # レシピを取得
     recipes = database.get_recipe()
     recipe_info_list = []
-    for recipe in recipes:
+    score_and_recipe = []
+
+    # 特売品が多く含まれる順にレシピをソート
+    for i,recipe in enumerate(recipes):
+        id = recipe[0]
+        ingredients = database.get_ingredient_names_by_recipe_id(id)
+        score = calc_simirality(ingredients, items)
+        if score > 0:
+            score_and_recipe.append((score,i))
+    score_and_recipe.sort(reverse=True)
+
+    # 上位数件のレシピデータを出力用に整形
+    for i in range(min(5,len(score_and_recipe))):
+        recipe = recipes[score_and_recipe[i][1]]
         id = recipe[0]
         recipe_info_list.append(Recipe(
-            name = recipe[1],
-            time = recipe[2],
-            url = recipe[3],
-            ingredients = database.get_ingredient_names_by_recipe_id(id),
-            stores = []
+                name = recipe[1],
+                time = recipe[2],
+                url = recipe[3],
+                ingredients = database.get_ingredient_names_by_recipe_id(id),
+                stores = []
         ))
+
+    # 特売品を販売しているスーパーで分ける
+    
+
     return recipe_info_list
 
 # 店名の一覧を求める
@@ -135,6 +170,7 @@ def get_store_info(request:StoreInfoRequest):
             items = database.get_item_names_by_store_id(id)
         ))
     return store_info_list
+
 def get_store_info_by_name(name:str):
     stores = database.get_store(name=name)
     if len(stores)>0:
@@ -147,6 +183,7 @@ def get_store_info_by_name(name:str):
             flyer_url = store[4],
             items = database.get_item_names_by_store_id(id)
         )
+    return []
 
 # 商品名の一覧を求める
 def get_item_names():

@@ -12,6 +12,7 @@ from test_asama.db_model import (
 
 def get_store(id: int = -1, name: str = "", length:float = 100000, latitude:float=-1, longitude:float=-1):
     rect_width = length/2/40000*360
+    print(rect_width)
     if id == -1 and name == "":
         stores = session.query(Store).filter(
             Store.latitude <= latitude + rect_width,

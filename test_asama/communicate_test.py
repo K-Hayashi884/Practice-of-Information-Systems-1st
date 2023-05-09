@@ -21,8 +21,8 @@ def toJson(obj):
 
 # 緯度経度, 希望時間を受け取り適切なレシピを返す
 def get_recipe(request):
-    latitude = request.args.get("latitude", -1.0)
-    longitude = request.args.get("longitude", -1.0)
+    latitude = float(request.args.get("latitude", -1.0))
+    longitude = float(request.args.get("longitude", -1.0))
     length = float(request.args.get("length", 100000.0))
     time = request.args.get("time", 1000)
     req = usecase.RecipeRequest(
@@ -65,8 +65,8 @@ def get_store_info(request):
 
 # 名前で指定した店の情報と扱っている特売商品名を求める
 def get_store_info_by_name(request):
-    name = float(request.args.get("store_name", ""))
-    res = usecase.get_store_info(name)
+    name = request.args.get("store_name", "")
+    res = usecase.get_store_info_by_name(name)
     res = toJson(res)
     return res
 

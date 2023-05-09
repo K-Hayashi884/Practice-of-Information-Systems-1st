@@ -35,7 +35,15 @@ def get_recipe(request):
 
 # 登録されている店名の一覧を求める
 def get_store_names(request):
-    res = usecase.get_store_names()
+    latitude = float(request.args.get("latitude", -1.0))
+    longitude = float(request.args.get("longitude", -1.0))
+    length = float(request.args.get("length", 100000.0))
+    req = usecase.StoreInfoRequest(
+        latitude=latitude,
+        longitude=longitude,
+        length=length
+    )
+    res = usecase.get_store_names(req)
     res = toJson(res)
     return res
 
@@ -50,6 +58,13 @@ def get_store_info(request):
         length=length
     )
     res = usecase.get_store_info(req)
+    res = toJson(res)
+    return res
+
+# 名前で指定した店の情報と扱っている特売商品名を求める
+def get_store_info(request):
+    name = float(request.args.get("store_name", ""))
+    res = usecase.get_store_info(name)
     res = toJson(res)
     return res
 

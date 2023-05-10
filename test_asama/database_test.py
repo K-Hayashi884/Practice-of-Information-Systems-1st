@@ -37,9 +37,9 @@ def get_store(id: int = -1, name: str = "", length:float = 100000, latitude:floa
             Store.longitude >= longitude - rect_width,
         )
     
-    result: list[tuple[int, str, float, float, str]] = []
+    result: list[tuple[int, str, float, float, str, int]] = []
     for store in stores:
-        result.append((store.id, store.name, store.latitude, store.longitude, store.flyer_url))
+        result.append((store.id, store.name, store.latitude, store.longitude, store.flyer_url, store.url_type))
 
     return result
 

@@ -4,11 +4,6 @@ from sqlalchemy import Column, String, Integer, FLOAT
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
-engine = sqlalchemy.create_engine('sqlite:///db.sqlite3', echo=True)
-Base.metadata.drop_all(engine)
-Base.metadata.create_all(engine)
-Session = sqlalchemy.orm.sessionmaker(bind=engine)
-session = Session()
 
 class Store(Base):
     __tablename__ = 'store'
@@ -18,6 +13,7 @@ class Store(Base):
     latitude = Column(FLOAT)
     longitude = Column(FLOAT)
     flyer_url = Column(String)
+    url_type = Column(Integer)
 
 class Item(Base):
     __tablename__ = 'item'
@@ -51,3 +47,7 @@ class Need(Base):
 
     recipe_id = Column(Integer, primary_key=True)
     ingredient_id = Column(Integer, primary_key=True)
+
+engine = sqlalchemy.create_engine('sqlite:///db.sqlite3', echo=True)
+Session = sqlalchemy.orm.sessionmaker(bind=engine)
+session = Session()

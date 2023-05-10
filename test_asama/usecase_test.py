@@ -16,12 +16,14 @@ class Store:
     latitude:str
     longitude:str
     flyer_url:str
+    url_type:int
     items:list[str]
-    def __init__(self, name:str, latitude:float, longitude:float, flyer_url:str, items:list[str]):
+    def __init__(self, name:str, latitude:float, longitude:float, flyer_url:str, url_type:int, items:list[str]):
         self.name = name
         self.latitude = latitude
         self.longitude = longitude
         self.flyer_url = flyer_url
+        self.url_type = url_type
         self.items = items
 
 class Recipe:
@@ -159,6 +161,7 @@ def get_recipe(request:RecipeRequest):
                     latitude=store_info[store_idx].latitude,
                     longitude=store_info[store_idx].longitude,
                     flyer_url=store_info[store_idx].flyer_url,
+                    url_type=store_info[store_idx].url_type,
                     items=ingredient_list
                 )
             )
@@ -188,6 +191,7 @@ def get_store_info(request:StoreInfoRequest):
             latitude = store[2],
             longitude = store[3],
             flyer_url = store[4],
+            url_type = store[5],
             items = database.get_item_names_by_store_id(id)
         ))
     return store_info_list
@@ -202,6 +206,7 @@ def get_store_info_by_name(name:str):
             latitude = store[2],
             longitude = store[3],
             flyer_url = store[4],
+            url_type = store[5],
             items = database.get_item_names_by_store_id(id)
         )
     return []
@@ -213,6 +218,14 @@ def get_item_names():
     for item in items:
         item_names.append(item[1])
     return item_names
+
+# 店名とURLを取得する
+def get_store_url():
+    stores = get_store_info()
+    store_info = []
+    for store in stores:
+        store_info.append((store.name, store.flyer_url, store.url_type))
+    return store_info
 
 # 特売商品情報をリセットする
 def clear_item():

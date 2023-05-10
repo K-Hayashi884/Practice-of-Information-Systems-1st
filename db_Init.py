@@ -1,6 +1,8 @@
 import csv
 import test_asama.usecase_test as usecase
 from test_asama.db_model import (
+    Base,
+    engine,
     session,
     Store,
     Item,
@@ -11,6 +13,8 @@ from test_asama.db_model import (
 )
 
 def database_init():
+    Base.metadata.drop_all(engine)
+    Base.metadata.create_all(engine)
     input_store_from_csv()
     input_recipe_from_csv()
     input_items_test()
@@ -45,7 +49,8 @@ def input_store_from_csv():
                 name = row[0],
                 latitude = float(row[1]),
                 longitude = float(row[2]),
-                flyer_url = row[3]
+                flyer_url = row[3],
+                url_type = int(row[4])
             ))
         session.add_all(stores)
         session.commit()

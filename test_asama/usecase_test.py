@@ -11,6 +11,17 @@ class RecipeRequest:
         self.length = length
         self.time = time
 
+class ItemRequest:
+    latitude: float
+    longitude: float
+    length: float
+    name: str
+    def __init__(self, latitude:float, longitude:float, length:float, name:str):
+        self.latitude = latitude
+        self.longitude = longitude
+        self.length = length
+        self.name = name
+
 class Store:
     name:str
     latitude:str
@@ -38,11 +49,6 @@ class Recipe:
         self.url = url
         self.ingredients = ingredients
         self.stores = stores
-
-class RecipeResponse:
-    recipes: list[Recipe]
-    def __init__(self, recipes: list[Recipe]):
-        self.recipes = recipes
 
 class StoreInfoRequest:
     latitude: float
@@ -212,12 +218,23 @@ def get_store_info_by_name(name:str):
     return []
 
 # 商品名の一覧を求める
-def get_item_names():
-    items = database.get_item()
-    item_names = []
-    for item in items:
-        item_names.append(item[1])
-    return item_names
+def get_items_by_name(request):
+    item_name = request.name
+    stores = get_store_info(StoreInfoRequest(
+        latitude=request.latitude,
+        longitude=request.longitude,
+        length=request.length
+    ))
+    result = []
+    for i, store in enumerate(stores):
+        items = []
+        for item in store.items:
+            if item_name in item or item in item_name:
+                items.append(item)
+        stores[i].items = items
+        if len(items) > 0:
+            result.append(stores[i])
+    return result
 
 # 店名とURLを取得する
 def get_store_url():

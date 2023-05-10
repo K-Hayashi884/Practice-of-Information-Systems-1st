@@ -24,7 +24,7 @@ def get_recipe(request):
     latitude = float(request.args.get("latitude", -1.0))
     longitude = float(request.args.get("longitude", -1.0))
     length = float(request.args.get("length", 100000.0))
-    time = request.args.get("time", 1000)
+    time = int(request.args.get("time", 1000))
     req = usecase.RecipeRequest(
         latitude = latitude,
         longitude = longitude,
@@ -70,8 +70,20 @@ def get_store_info_by_name(request):
     res = toJson(res)
     return res
 
-# 登録されている特売商品名のリストを求める
-def get_item_names(request):
-    res = usecase.get_item_names()
+# 商品名で該当する商品と扱っている店を検索する
+def get_items_by_name(request):
+    latitude = float(request.args.get("latitude", -1.0))
+    longitude = float(request.args.get("longitude", -1.0))
+    length = float(request.args.get("length", 100000.0))
+    name = request.args.get("name", "None")
+    if name == "":
+        name = "None"
+    req = usecase.ItemRequest(
+        latitude = latitude,
+        longitude = longitude,
+        length = length,
+        name = name
+    )
+    res = usecase.get_items_by_name(req)
     res = toJson(res)
     return res

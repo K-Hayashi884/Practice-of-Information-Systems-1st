@@ -20,8 +20,8 @@ def get_store_info_request():
     return communicate.get_store_info_by_name(request)
 
 @app.route('/item', methods=['GET'])
-def get_item_names_request():
-    return communicate.get_item_names(request)
+def get_items_request():
+    return communicate.get_items_by_name(request)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)

@@ -43,20 +43,6 @@ def get_store(id: int = -1, name: str = "", length:float = 100000, latitude:floa
 
     return result
 
-def get_item(id: int = -1, name: str = ""):
-    if id == -1 and name == "":
-        items = session.query(Item).all()
-    elif id == -1:
-        items = session.query(Item).filter(Item.name==name)
-    else:
-        items = session.query(Item).filter(Item.id==id)
-    
-    result: list[tuple[int, str]] = []
-    for item in items:
-        result.append((item.id, item.name))
-
-    return result
-
 def get_item_names_by_store_id(id: int):
     items = session.query(Item).join(Handling, Item.id==Handling.item_id).filter(Handling.store_id==id)
     res = []

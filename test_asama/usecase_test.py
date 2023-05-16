@@ -238,7 +238,12 @@ def get_items_by_name(request):
 
 # 店名とURLを取得する
 def get_store_url():
-    stores = get_store_info()
+    request = StoreInfoRequest(
+        latitude=135,
+        longitude=35,
+        length=100000
+    )
+    stores = get_store_info(request)
     store_info = []
     for store in stores:
         store_info.append((store.name, store.flyer_url, store.url_type))

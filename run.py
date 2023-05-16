@@ -1,7 +1,10 @@
 from flask import Flask, request
+from flask_cors import CORS
 import test_asama.communicate_test as communicate
+import test_asama.usecase_test as usecase
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/recipe', methods=['GET'])
 def get_recipe_request():

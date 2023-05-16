@@ -1,7 +1,10 @@
 from flask import Flask, request
+from flask_cors import CORS
 import test_asama.communicate_test as communicate
+import test_asama.usecase_test as usecase
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/recipe', methods=['GET'])
 def get_recipe_request():
@@ -22,6 +25,11 @@ def get_store_info_request():
 @app.route('/item', methods=['GET'])
 def get_items_request():
     return communicate.get_items_by_name(request)
+
+@app.route('/url', methods=['GET'])
+def get_url():
+    usecase.get_store_url()
+    return "aaa"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)

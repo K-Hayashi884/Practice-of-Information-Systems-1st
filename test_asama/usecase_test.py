@@ -247,7 +247,6 @@ def get_store_url():
     store_info = []
     for store in stores:
         store_info.append((store.name, store.flyer_url, store.url_type))
-    print(store_info)
     return store_info
 
 # 特売商品情報をリセットする

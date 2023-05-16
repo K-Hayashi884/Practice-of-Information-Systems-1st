@@ -26,10 +26,5 @@ def get_store_info_request():
 def get_items_request():
     return communicate.get_items_by_name(request)
 
-@app.route('/url', methods=['GET'])
-def get_url():
-    usecase.get_store_url()
-    return "aaa"
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)

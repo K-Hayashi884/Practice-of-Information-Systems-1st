@@ -1,0 +1,10 @@
+const url='/Users/akanumaryuunosuke/Practice-of-Information-Systems-1st/templates/public/recipe.json';
+    $('.btn').click(function(){
+        $.getJSON(url, function(result){
+            console.log(result
+        })
+    })
+
+    $('.btn').click(function(){
+        console.log("正常")
+    })

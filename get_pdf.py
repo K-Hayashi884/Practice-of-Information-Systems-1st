@@ -1,3 +1,23 @@
+"""
+# コード内容
+
+## 1. 取得店舗をtype1, type2 の2種類に分類
+
+type1の店== tokubai.co.jpのリンクを踏むとチラシの画像が表示されるような店
+
+type2の店== tokubai.co.jpのリンクを踏むと具体的な特売商品が文字列で表示されるような店
+
+## 2-1. type1の店での流れ
+
+- 2.店ごとにHTMLの表記法が微妙に異なるので、`link1_to_link2(link1_list)`という関数を作成。この関数は`link1_list`に含まれる適切なチラシの階層2リンク(string)のlist(`link2_list`)を返す
+- 3.`link2_list`には最新ではないチラシも含まれるため、関数`update_url_list(link2_list)`を作成。`./urls.txt`を利用。返り値`new_link2_list`には新しいチラシの階層2リンク
+- 4.`get_url(new_link2_list)`で階層2のリンクを階層3のリンクに変換
+
+## 2-2. type2の店での流れ
+
+このタイプは、店のURLに文字列として特売情報が記録されているので、これを直接ダウンロードする処理を行う
+"""
+
 import requests
 from bs4 import BeautifulSoup
 import calendar
@@ -110,20 +130,3 @@ def get_bargains(link1_list):
             elements = soup.find_all(class_="name hoverable_link")
             sales_list.append((link1[0],[(element.contents[0][1:-1],0) for element in elements]))
     return sales_list
-
-#　使用するのは、(店名,URL,(if type1 then 0 else 1))というタプルのリスト
-#　これを受け取った後、type1の店リストとtype2の店リストの2つに振り分け、それぞれ店名と一緒に.jpgと特売情報リストを返す
-input_list = get_store_url()
-type1_link1_list = []
-type2_link1_list = []
-for t in input_list:
-    if t[2] == 0:
-        type1_link1_list.append((t[0],t[1]))
-    else:
-        type2_link1_list.append((t[0],t[1]))
-link2_list = link1_to_link2(type1_link1_list)
-new_link2_list = update_url_list(link2_list)
-type1_link3_list = get_url(new_link2_list)
-type2_string_list = get_bargains(type2_link1_list)
-for l in type2_string_list:
-    add_items(l[0],l[1])

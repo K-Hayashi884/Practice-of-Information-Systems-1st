@@ -1,0 +1,37 @@
+.header {
+    background-color: aqua;
+    height: 100px;
+    text-align: center;
+}
+
+.main{
+    background-color: antiquewhite;
+    height: 1000px;
+}
+
+.header-logo{
+    color: white;
+    font-size: 50px;
+}
+
+.copy-contents{
+    padding-top: 50px;
+    text-align:center;
+}
+
+.menu-list table{
+    margin: auto;
+    margin-top:50px;
+}
+
+.map {
+    text-align: center;
+    margin: 50px 0px 0px 0px;
+}
+
+.map-flame{
+    width:80%;
+    height:500px;
+    border: 1px solid Black;
+    margin: auto;
+}

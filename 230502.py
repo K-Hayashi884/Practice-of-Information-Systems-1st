@@ -8,6 +8,7 @@ import ast
 import time
 import json
 import urllib.parse
+from test_asama.usecase_test import add_items
 
 def ocr(url,storename):
     # 画像のURLを指定する
@@ -180,11 +181,23 @@ def ocr(url,storename):
 
     new_str_list = list(set(new_str_list))
 
-    print(new_str_list)  # 条件に合致した文字列のリストを出力する
+  #[‘トマト’, ‘レタス’, ‘じゃがいも’]このリストを以下のリストに変換するコードを書いてください。[(‘トマト’,0), (‘レタス’,0),(‘じゃがいも’,0)]
+    new_list = []
 
+    for item in new_str_list:
+        new_list.append((item, 0))
+
+    add_items(storename,new_list)
+        
+    print(new_list) # 条件に合致した文字列のリストを出力する
+
+ocr("https://image.tokubai.co.jp/images/bargain_office_leaflets/o=true/5907037.jpg","aaa") 
+
+def ocr_all_stores(store_list):
+
+    for item in store_list:
+        print(store_list)
  
-
-
 
     #[1,2,3,4]
     #d = {'text':'asama', 'age':22, 'aiueo':[{},{},{}]}

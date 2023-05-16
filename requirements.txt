@@ -10,6 +10,7 @@ debugpy==1.6.7
 decorator==5.1.1
 executing==1.2.0
 Flask==2.2.3
+Flask-Cors==3.0.10
 Flask-SQLAlchemy==3.0.3
 future @ file:///System/Volumes/Data/SWE/Apps/DT/BuildRoots/BuildRoot7/ActiveBuildRoot/Library/Caches/com.apple.xbs/Sources/python3/python3-133.100.1.1/future-0.18.2-py3-none-any.whl
 greenlet==2.0.2
@@ -42,7 +43,7 @@ python-dateutil==2.8.2
 pyzmq==25.0.2
 reportlab==3.6.12
 requests==2.30.0
-six @ file:///System/Volumes/Data/SWE/Apps/DT/BuildRoots/BuildRoot7/ActiveBuildRoot/Library/Caches/com.apple.xbs/Sources/python3/python3-133.100.1.1/six-1.15.0-py2.py3-none-any.whl
+six==1.16.0
 SQLAlchemy==2.0.9
 stack-data==0.6.2
 tornado==6.2

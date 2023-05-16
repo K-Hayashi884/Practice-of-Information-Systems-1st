@@ -84,3 +84,10 @@ def add_store(store_name: str, latitude: float, longitude: float, url:str):
 def clear_item_table():
     session.query(Item).delete()
     session.query(Handling).delete()
+
+def get_item():
+    items = session.query(Item).all()
+    result: list[tuple[int,str]] = []
+    for item in items:
+        result.append((item.id, item.name))
+    return result

@@ -1,10 +1,21 @@
 
-const url =
-    $('#btn menu').click(function () {
-        let element = document.getElementById('time');
-        value = element.value;
-        console.log(value);
-    });
+// const url =
+function timeOnClick() {
+    let element = document.getElementById('time');
+    var value = element.value.split(":");
+    var targetHour = parseInt(value[0]);
+    var targetMin = parseInt(value[1])
+    var now = new Date();
+    var target = new Date();
+    target.setHours(targetHour, targetMin);
+    if (now > target) {
+        target.setDate(target.getDate() + 1);
+    }
+    var resMilliSec = target - now;
+    var resMin = parseInt(resMilliSec / 1000 / 60);
+
+    window.location.href = (window.location.hostname + window.location.pathname).replace("top", "menu") + `?min=${resMin}`;
+};
 
 function initMap() {
     const myLatlng = { lat: 35.027221289790276, lng: 135.78074403227868 };

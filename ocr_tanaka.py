@@ -191,12 +191,10 @@ def ocr(url,storename):
         
     print(new_list) # 条件に合致した文字列のリストを出力する
 
-ocr("https://image.tokubai.co.jp/images/bargain_office_leaflets/o=true/5907037.jpg","aaa") 
-
 def ocr_all_stores(store_list):
 
     for item in store_list:
-        print(store_list)
+        ocr(item[1],item[0]) 
  
 
     #[1,2,3,4]

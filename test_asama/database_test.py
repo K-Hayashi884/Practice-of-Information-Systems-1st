@@ -71,6 +71,9 @@ def add_item(name: str):
     return item.id
 
 def add_handling(store_id: int, item_id: int):
+    handlings = session.query(Handling).filter(Handling.store_id==store_id).filter(Handling.item_id==item_id)
+    if handlings.count() > 0:
+        return
     handling = Handling(store_id=store_id, item_id=item_id)
     session.add(handling)
     session.commit()

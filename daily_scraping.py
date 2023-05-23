@@ -1,6 +1,6 @@
 from test_asama.usecase_test import get_store_url, add_items
 from get_pdf import link1_to_link2, update_url_list, get_url, get_bargains
-
+from ocr_tanaka import ocr_all_stores
 def main():
   """
   (店名,URL,(if type1 then 0 else 1))というタプルのリストを受け取る
@@ -17,6 +17,7 @@ def main():
   link2_list = link1_to_link2(type1_link1_list)
   new_link2_list = update_url_list(link2_list)
   type1_link3_list = get_url(new_link2_list)
+  ocr_all_stores(type1_link3_list)
   type2_string_list = get_bargains(type2_link1_list)
   for l in type2_string_list:
       add_items(l[0],l[1])

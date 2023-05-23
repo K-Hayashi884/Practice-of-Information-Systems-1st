@@ -77,6 +77,7 @@ def get_dict_item_name_to_id():
 
 # 特売商品をDBに追加する
 def add_items(store_name:str, items:list[tuple[str, int]]):
+    items = list(set(items))
     item_name_to_id = get_dict_item_name_to_id()
     stores = database.get_store(name=store_name)
     if len(stores)>0:
@@ -105,7 +106,7 @@ def calc_simirality(ingredients:list[str], items:list[tuple[str,int]]):
             if ingredient in item[0] or item[0] in ingredient:
                 score += 1
                 store_list.append((ingredient, item[1]))
-    score /= len(ingredients)
+    score /= min(7,len(ingredients))
     return score, store_list
 
 # 最適なレシピを求める
@@ -135,13 +136,11 @@ def get_recipe(request:RecipeRequest):
         ingredients = database.get_ingredient_names_by_recipe_id(id)
         print(ingredients)
         score, store_lists[i] = calc_simirality(ingredients, items)
-        if score > 0:
-            score_and_recipe.append((score,i))
-    score_and_recipe.sort(reverse=True)
+        score_and_recipe.append([score,i])
+    #score_and_recipe.sort(reverse=True)
 
     # 上位数件のレシピデータを出力用に整形
-    for i in range(min(5,len(score_and_recipe))):
-        recipe = recipes[score_and_recipe[i][1]]
+    for recipe in recipes:
         id = recipe[0]
         recipe_info_list.append(Recipe(
                 name = recipe[1],
@@ -168,11 +167,27 @@ def get_recipe(request:RecipeRequest):
                     longitude=store_info[store_idx].longitude,
                     flyer_url=store_info[store_idx].flyer_url,
                     url_type=store_info[store_idx].url_type,
-                    items=ingredient_list
+                    items=list(set(ingredient_list))
                 )
             )
 
-    return recipe_info_list
+    for i, recipe in enumerate(recipe_info_list):
+        if len(recipe.stores) > 0:
+            score_and_recipe[i][0] = score_and_recipe[i][0]**(1/len(recipe_info_list[i].stores))
+        else:
+            score_and_recipe[i][0] = 0
+
+        if recipe.time <= request.time:
+            score_and_recipe[i][0] = score_and_recipe[i][0]**(1/(request.time-recipe.time+1))
+        else:
+            score_and_recipe[i][0] = 0
+
+    score_and_recipe.sort(reverse=True)
+    result = []
+    for [score, i] in score_and_recipe:
+        if score > 0:
+            result.append(recipe_info_list[i])
+    return result[:min(10,len(result))]
 
 # 店名の一覧を求める
 def get_store_names(request:StoreInfoRequest):

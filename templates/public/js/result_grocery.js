@@ -8,6 +8,7 @@ window.addEventListener("load", function () {
         dataTyoe: JSON,
         success: function (result) {
             console.log("商品情報検索成功");
+            append_title(grocery_name)
             append_table(result);
         },
         error: function (error) {
@@ -17,6 +18,11 @@ window.addEventListener("load", function () {
 
     initMap();
 })
+
+function append_title(grocery_name){
+    var title = $('#table_title');
+    title.append(grocery_name + " (商品名)の検索結果一覧")
+}
 
 function append_table(properties) {
     var table = $('#result_table>tbody');

@@ -1,17 +1,17 @@
-window.addEventListener("load", function() {
-    url="http://127.0.0.1:8080/recipe";
+window.addEventListener("load", function () {
+    url = "http://127.0.0.1:8080/recipe";
 
     $.ajax({
         url: url,
         type: 'GET',
-        dataTyoe : JSON,
-        success: function(result){
+        dataTyoe: JSON,
+        success: function (result) {
             // console.log(result);
             console.log("成功");
             // console.log(result);
             append_table(result);
         },
-        error: function(error){
+        error: function (error) {
             console.log(`error ${error}`);
         }
     });
@@ -19,7 +19,7 @@ window.addEventListener("load", function() {
     initMap();
 })
 
-function append_table (properties){
+function append_table(properties) {
     //var properties = $.parseJSON(json_file);
     var table = $('#result_table>tbody');
     properties.forEach(i => {
@@ -40,7 +40,7 @@ function append_table (properties){
         newRow += "<td>" + time + "</td>";
         newRow += "<td>" + storeName.join("<br>") + "</td>";
         newRow += "</tr>"
-        
+
         table.append(newRow);
     });
 
@@ -63,7 +63,7 @@ function initMap() {
         content: contentString,
         arialabel: "here",
     });
-    
+
     marker.addListener("click", () => {
         infowindow.open({
             anchor: marker,

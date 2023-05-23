@@ -1,10 +1,10 @@
 
-const url=
-$('#btn menu').click(function(){
-    let element = document.getElementById('time');
-    value = element.value;
-    console.log(value);
-});
+const url =
+    $('#btn menu').click(function () {
+        let element = document.getElementById('time');
+        value = element.value;
+        console.log(value);
+    });
 
 function initMap() {
     const myLatlng = { lat: 35.027221289790276, lng: 135.78074403227868 };
@@ -22,7 +22,7 @@ function initMap() {
         content: contentString,
         arialabel: "here",
     });
-    
+
     marker.addListener("click", () => {
         infowindow.open({
             anchor: marker,

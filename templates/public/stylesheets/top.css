@@ -1,68 +1,67 @@
 body {
-    font-family: "Avenir Next";
-  }
-  
-  li {
-    list-style: none;
-  }
+  font-family: "Avenir Next";
+}
+
+li {
+  list-style: none;
+}
 .header {
-    background-color: aqua;
-    height: 100px;
+  background-color: aqua;
+  height: 100px;
 }
 
-.main{
-    background-color: antiquewhite;
-    height: 1000px;
+.main {
+  background-color: antiquewhite;
+  height: 1000px;
 }
 
-.header-logo{
-    color: white;
-    font-size: 50px;
+.header-logo {
+  color: white;
+  font-size: 50px;
 }
 
 .copy-containts {
-    padding-left: 100px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+  padding-left: 100px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .copy-txt {
-    font-size: 25px;
+  font-size: 25px;
 }
 
 .container {
-    text-align: center;
+  text-align: center;
 }
 
 .container input {
-    width: 80%;
-    height: 20px;
+  width: 80%;
+  height: 20px;
 }
 
-
 .grocery {
-    display: inline-block;
-    margin: 20px;
+  display: inline-block;
+  margin: 20px;
 }
 
 .store {
-    display: inline-block;
-    margin: 20px;
+  display: inline-block;
+  margin: 20px;
 }
 
 .menu {
-    display: inline-block;
-    margin: 20px;
+  display: inline-block;
+  margin: 20px;
 }
 
 .map-area {
-    height: 700px;
-    width: 100%;
-    text-align:center;
+  height: 700px;
+  width: 100%;
+  text-align: center;
 }
 
 .map {
-    width:50%;
-    height: 80%;
-    margin: auto;
+  width: 50%;
+  height: 80%;
+  margin: auto;
 }

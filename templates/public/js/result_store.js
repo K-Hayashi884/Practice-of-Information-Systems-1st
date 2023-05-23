@@ -14,7 +14,7 @@ function initMap() {
         content: contentString,
         arialabel: "here",
     });
-    
+
     marker.addListener("click", () => {
         infowindow.open({
             anchor: marker,

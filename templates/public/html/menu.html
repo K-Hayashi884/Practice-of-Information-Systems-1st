@@ -19,7 +19,7 @@
         <div class="contents">
             <div class="menu-list">
                 
-                <table class="menu" border="1" width="80%">
+                <table class="menu" id="result_table" border="1" width="80%">
                     <tr>
                         <th>レシピ</th>
                         <th>必要材料1</th>
@@ -34,28 +34,16 @@
                         <td>リンク_レシピ１</td>
                         <td>リンク_レシピ１</td>
                     </tr>
-                    <tr>
-                        <td>レシピ2</td>
-                        <td>材料_レシピ2<br>材料1_レシピ2 <br>材料2_レシピ2</td>
-                        <td>立ち寄り店舗名_レシピ2</td>
-                        <td>リンク_レシピ2</td>
-                        <td>リンク_レシピ2</td>
-                    </tr>
-                    <tr>
-                        <td>レシピ3</td>
-                        <td>材料_レシピ3</td>
-                        <td>立ち寄り店舗名_レシピ3</td>
-                        <td>リンク_レシピ3</td>
-                        <td>リンク_レシピ3</td>
-                    </tr>
+                    
+                    
 
                 </table>
 
             </div>    
 
             <div class="map-area">
-                <h3>特売中の店舗位置</h3>
-                <div class="map-flame">ここにgoogle mapを入れて地図表示する</div>
+                <h3>検索商品を売る店舗位置</h3>
+                <div id="map" class="map"></div>
             </div>
                 
 
@@ -64,6 +52,6 @@
         </div>
             
     </div>
-
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjkW8fRqsU3Cclv0_mGMD3lKxnZdW5nRk&callback=initMap"></script>
 </body>
 </html>

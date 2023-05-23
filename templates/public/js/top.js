@@ -1,8 +1,8 @@
 $(function(){
-    const Url=
+    const url=
     $('#btn-store').click(function(){
         $.ajax({
-            url: Url,
+            url: url,
             type: "Get",
             success: function(result){
                 console.log(result);

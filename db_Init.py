@@ -20,15 +20,15 @@ def database_init():
     input_items_test()
 
 def input_items_test():
-    usecase.add_items("コープ岩倉",[
+    usecase.add_items("グレース田中",[
         ("鶏モモ肉",100),
         ("卵",100),
     ])
-    usecase.add_items("エムジーショップ岩倉",[
+    usecase.add_items("ライフ北白川",[
         ("塩",100),
         ("レモン",100),
     ])
-    usecase.add_items("Aコープ岩倉",[
+    usecase.add_items("コレモ出町柳",[
         ("揚げ油",100),
         ("おろしニンニク",100),
         ("おろし生姜",100),

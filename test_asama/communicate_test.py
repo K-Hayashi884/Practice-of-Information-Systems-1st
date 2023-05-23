@@ -76,8 +76,8 @@ def get_items_by_name(request):
     longitude = float(request.args.get("longitude", -1.0))
     length = float(request.args.get("length", 100000.0))
     name = request.args.get("name", "None")
-    if name == "":
-        name = "None"
+    #if name == "":
+    #    name = "None"
     req = usecase.ItemRequest(
         latitude = latitude,
         longitude = longitude,

@@ -77,6 +77,7 @@ def get_dict_item_name_to_id():
 
 # 特売商品をDBに追加する
 def add_items(store_name:str, items:list[tuple[str, int]]):
+    items = list(set(items))
     item_name_to_id = get_dict_item_name_to_id()
     stores = database.get_store(name=store_name)
     if len(stores)>0:
@@ -168,7 +169,7 @@ def get_recipe(request:RecipeRequest):
                     longitude=store_info[store_idx].longitude,
                     flyer_url=store_info[store_idx].flyer_url,
                     url_type=store_info[store_idx].url_type,
-                    items=ingredient_list
+                    items=list(set(ingredient_list))
                 )
             )
 

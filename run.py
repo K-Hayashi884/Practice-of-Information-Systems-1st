@@ -4,6 +4,7 @@ import test_asama.communicate_test as communicate
 import test_asama.usecase_test as usecase
 
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
 CORS(app)
 
 @app.route('/recipe', methods=['GET'])

@@ -17,10 +17,10 @@ def database_init():
     Base.metadata.create_all(engine)
     input_store_from_csv()
     input_recipe_from_csv()
-    input_items_test()
+    #input_items_test()
 
 def input_items_test():
-    usecase.add_items("グレース田中",[
+    usecase.add_items("グレースたなか",[
         ("鶏モモ肉",100),
         ("卵",100),
     ])
@@ -65,7 +65,7 @@ def input_recipe_from_csv():
     ingredient_name_to_id: dict[str, int] = {}
 
     filename = "test_asama/db_recipe.csv"
-    with open(filename, encoding='shift-jis', newline='') as f:
+    with open(filename, encoding='utf-8', newline='') as f:
         csvreader = csv.reader(f)
         header = next(csvreader)
         for row in csvreader:

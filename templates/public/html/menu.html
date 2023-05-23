@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>menu-page</title>
+    <link rel="stylesheet" href="../stylesheets/menu.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.7.0.js"
+      integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+      crossorigin="anonymous"
+    ></script>
+    <script src="../js/menu.js"></script>
+  </head>
+  <body>
+    <div class="header">
+      <div class="header-logo">近くのお買い得品と献立</div>
+    </div>
+
+    <div class="main">
+      <div class="copy-contents">
+        <h1 class="copy-txt">00分以内で完成するメニュー</h1>
+      </div>
+      <div class="contents">
+        <div class="menu-list">
+          <table class="menu" id="result_table" border="1" width="80%">
+            <tr>
+              <th>レシピ</th>
+              <th>必要材料1</th>
+              <th>調理時間(分)</th>
+              <th>立寄必要店舗</th>
+            </tr>
+          </table>
+        </div>
+
+        <div class="map-area">
+          <h3>検索商品を売る店舗位置</h3>
+          <div id="map" class="map"></div>
+        </div>
+      </div>
+    </div>
+    <script
+      async
+      src="https://maps.googleapis.com/maps/api/js?key= ********* &callback=initMap"
+    ></script>
+  </body>
+</html>

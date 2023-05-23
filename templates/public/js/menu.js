@@ -1,42 +1,51 @@
-$(function(){
-    url="http://127.0.0.1:8080/recipe"
-
-function append_table (json_file){
-    var properties = $.parseJSON(json_file);
-    var $res = $('#result_table');
-    for(var i in properties){
-        $res.append(`<tr><td>${properties[i].ingredients}</td>
-                        <td>${properties[i].name}</td>
-                        <td>${properties[i].stores}</td>
-                        <td>${properties[i].stores}</td></tr>`);
-    }
-
-}
+window.addEventListener("load", function() {
+    url="http://127.0.0.1:8080/recipe";
 
     $.ajax({
         url: url,
         type: 'GET',
         dataTyoe : JSON,
         success: function(result){
-            console.log(result);
+            // console.log(result);
             console.log("成功");
+            // console.log(result);
             append_table(result);
         },
         error: function(error){
             console.log(`error ${error}`);
         }
-    })
+    });
 
-
-    /*var test_data = [
-        { "name": "キャベツ", "value": 100, "shop":"フレスコ", "flyer":"url of flyer1" },
-        { "name": "じゃがいも", "value": 200, "shop":"ダックス", "flyer":"url of flyer2"  },
-        { "name": "にんじん", "value": 300, "shop":"直売所", "flyer":"url of flyer3"  }
-    ]; */
-
-   
-
+    initMap();
 })
+
+function append_table (properties){
+    //var properties = $.parseJSON(json_file);
+    var table = $('#result_table>tbody');
+    properties.forEach(i => {
+        var recipeName = i["name"];
+        var ingredients = i["ingredients"];
+        var storeName = [];
+        var flyerUrl = [];
+        var time = i["time"];
+        i["stores"].forEach(store => {
+            storeName.push(store["name"]);
+            flyerUrl.push(`<a href=${store["flyer_url"]}>${store["name"]}</a>`);
+        });
+        var recipeUrl = i["url"];
+
+        var newRow = "<tr>";
+        newRow += `<td><a href=${recipeUrl}>${recipeName}</a></td>`;
+        newRow += "<td>" + ingredients.join("<br>") + "</td>";
+        newRow += "<td>" + time + "</td>";
+        newRow += "<td>" + storeName.join("<br>") + "</td>";
+        newRow += "</tr>"
+        
+        table.append(newRow);
+    });
+
+}
+
 
 function initMap() {
     const myLatlng = { lat: 35.027221289790276, lng: 135.78074403227868 };

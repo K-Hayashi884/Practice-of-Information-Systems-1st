@@ -1,19 +1,9 @@
-$(function(){
-    const url=
-    $('#btn-store').click(function(){
-        $.ajax({
-            url: url,
-            type: "Get",
-            success: function(result){
-                console.log(result);
-            },
-            error: function(error){
-                console.log(`error ${error}`);
-            }
 
-        });
-    });
-    $('.copy-txt').text('jqueryは起動中');
+const url=
+$('#btn menu').click(function(){
+    let element = document.getElementById('time');
+    value = element.value;
+    console.log(value);
 });
 
 function initMap() {

@@ -22,10 +22,9 @@ $(function(){
         { "name": "キャベツ", "value": 100, "shop":"フレスコ", "flyer":"url of flyer1" },
         { "name": "じゃがいも", "value": 200, "shop":"ダックス", "flyer":"url of flyer2"  },
         { "name": "にんじん", "value": 300, "shop":"直売所", "flyer":"url of flyer3"  }
-    ];
-    var $res = $('#body');*/
-
-
+    ];*/
+    
+    var $res = $('#body');
     for(var i in properties){
 
         $res.append(`<tr><td>${properties[i].ingredients}</td>

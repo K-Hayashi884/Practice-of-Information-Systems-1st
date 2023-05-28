@@ -1,4 +1,5 @@
 window.addEventListener("load", function () {
+    fetchAPI();
     store_name = getParam("store_name")
     url = "http://127.0.0.1:8080/store?name="+store_name;
 
@@ -49,6 +50,13 @@ function getParam(name) {
     if (!results) return "";
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function fetchAPI(){
+    var sc = document.createElement('script');
+    sc.src = "https://maps.googleapis.com/maps/api/js?key="+conf.apikey+"&callback=initMap";
+    sc.async = true;
+    document.body.appendChild(sc);
 }
 
 function initMap(result) {

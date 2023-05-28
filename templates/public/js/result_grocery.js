@@ -10,13 +10,12 @@ window.addEventListener("load", function () {
             console.log("商品情報検索成功");
             append_title(grocery_name)
             append_table(result);
+            initMap(result);
         },
         error: function (error) {
             console.log(`error ${error}`);
         }
     });
-
-    initMap();
 })
 
 function append_title(grocery_name){
@@ -50,21 +49,35 @@ function getParam(name) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-function initMap() {
+function initMap(result) {
+    if(result == null)return;
     const myLatlng = { lat: 35.027221289790276, lng: 135.78074403227868 };
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 15,
         center: myLatlng,
+    })
+    makeMarker(map,"現在地", "現在地", myLatlng.lat, myLatlng.lng);
+    result.forEach(i => {
+        makeMarker(
+            map,
+            i["name"],
+            '<a href="'+i["flyer_url"]+'">'+i["name"]+"</a>",
+            i["latitude"],
+            i["longitude"]
+        );
     });
+}
+
+function makeMarker(map,title,href,lat,lng){
     const marker = new google.maps.Marker({
-        position: myLatlng,
+        position: { lat: lat, lng: lng },
         map,
-        title: "here!",
+        title: title,
     });
-    const contentString = "You are here!";
+    const contentString = href;
     const infowindow = new google.maps.InfoWindow({
         content: contentString,
-        arialabel: "here",
+        arialabel: title,
     });
 
     marker.addListener("click", () => {
@@ -74,9 +87,8 @@ function initMap() {
         });
     });
     marker.addListener("closeclick", () => {
-        infowindow.close({
-        });
+        infowindow.close({});
     });
+    return marker;
 }
-
 window.initMap = initMap;

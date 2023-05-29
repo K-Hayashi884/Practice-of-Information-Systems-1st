@@ -24,14 +24,14 @@
   margin-top: 50px;
 }
 
-.map {
+.map-area {
+  height: 700px;
+  width: 100%;
   text-align: center;
-  margin: 50px 0px 0px 0px;
 }
 
-.map-flame {
-  width: 80%;
-  height: 500px;
-  border: 1px solid Black;
+.map {
+  width: 50%;
+  height: 80%;
   margin: auto;
 }

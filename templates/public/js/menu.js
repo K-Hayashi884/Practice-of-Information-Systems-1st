@@ -1,23 +1,30 @@
 window.addEventListener("load", function () {
-    url = "http://127.0.0.1:8080/recipe";
+    time = getParam("min")
+    url = "http://127.0.0.1:8080/?time=" + time;
+    append_title(time)
+    append_table(result);
+    initMap(result);
 
     $.ajax({
         url: url,
         type: 'GET',
         dataTyoe: JSON,
         success: function (result) {
-            // console.log(result);
-            console.log("成功");
-            // console.log(result);
+            console.log("献立検索成功");
+            append_title(time)
             append_table(result);
+            initMap(result);
         },
         error: function (error) {
             console.log(`error ${error}`);
         }
     });
-
-    initMap();
 })
+
+function append_title(time) {
+    var title = $('#copy-txt');
+    title.text(`${time}分以内で完成するメニュー`);
+}
 
 function append_table(properties) {
     //var properties = $.parseJSON(json_file);
@@ -43,27 +50,55 @@ function append_table(properties) {
 
         table.append(newRow);
     });
+}
 
+function getParam(name) {
+    url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return "";
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
 
-function initMap() {
+
+
+function initMap(result) {
+    if (result == null) return;
     const myLatlng = { lat: 35.027221289790276, lng: 135.78074403227868 };
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 15,
         center: myLatlng,
+    })
+    makeMarker(map, "現在地", "現在地", myLatlng.lat, myLatlng.lng);
+
+    const infoStores = makeStoreInfoArr(result)
+    console.log("重複抜きのリスト");
+    console.log(infoStores);
+    infoStores.forEach(store => {
+        makeMarker(
+            map,
+            store["storeName"],
+            '<a href="' + store["url"] + '">' + store["storeName"] + "</a>",
+            parseFloat(store["lat"]),
+            parseFloat(store["lng"])
+        );
     });
+}
+
+function makeMarker(map, title, href, lat, lng) {
     const marker = new google.maps.Marker({
-        position: myLatlng,
+        position: { lat: lat, lng: lng },
         map,
-        title: "here!",
+        title: title,
     });
-    const contentString = "You are here!";
+    const contentString = href;
     const infowindow = new google.maps.InfoWindow({
         content: contentString,
-        arialabel: "here",
+        arialabel: title,
     });
-
     marker.addListener("click", () => {
         infowindow.open({
             anchor: marker,
@@ -71,9 +106,40 @@ function initMap() {
         });
     });
     marker.addListener("closeclick", () => {
-        infowindow.close({
-        });
+        infowindow.close({});
     });
+    return marker;
 }
+
+function makeStoreInfoArr(result) {//返り値：重複のない店舗情報連想配列
+    var arrStores = new Array();
+    var nameList = [];
+    result.forEach(menu => {
+        menu["stores"].forEach(store => {
+            var targetName = store["name"]
+            var isStoreExists = false;
+            for (index in nameList) {
+                if (nameList[index] == targetName) {
+                    isStoreExists = true;
+                    break;
+                }
+            }
+            if (isStoreExists == false) {
+                nameList.push(targetName);
+                var storeInfo = {
+                    storeName: store["name"],
+                    url: store["flyer_url"],
+                    lat: store["latitude"],
+                    lng: store["longitude"]
+                };
+                arrStores.push(storeInfo);
+            }
+
+        })
+    });
+    return arrStores;
+
+}
+
 
 window.initMap = initMap;

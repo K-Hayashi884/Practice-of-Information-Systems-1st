@@ -14,7 +14,18 @@ function timeOnClick() {
     var resMilliSec = target - now;
     var resMin = parseInt(resMilliSec / 1000 / 60);
 
-    window.location.href = (window.location.hostname + window.location.pathname).replace("top", "menu") + `?min=${resMin}`;
+    window.location.href = (window.location.hostname + window.location.pathname).replace("/top", "/menu") + `?min=${resMin}`;
+};
+
+function groceryOnClick() {
+    let element = document.getElementById('search_grocery');
+    var value = element.value;
+    window.location.href = (window.location.hostname + window.location.pathname).replace("/top", "/result_grocery") + `?grocery_name=${value}`;
+};
+function storeOnClick() {
+    let element = document.getElementById('search_store');
+    var value = element.value;
+    window.location.href = (window.location.hostname + window.location.pathname).replace("/top", "/result_store") + `?store_name=${value}`;
 };
 
 function initMap() {

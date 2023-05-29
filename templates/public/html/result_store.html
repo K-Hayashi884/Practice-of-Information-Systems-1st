@@ -4,10 +4,15 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>商品検索結果</title>
+    <title>店舗検索結果</title>
     <link rel="stylesheet" href="../stylesheets/result_store.css" />
-    <script type="text/javascript" src="../../jquery-3.6.4.min.js"></script>
-    <script src="../js/result_grocery.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.0.js"
+      integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+      crossorigin="anonymous"
+    ></script>
+    <script src="../js/local_settings.js"></script>
+    <script src="../js/result_store.js"></script>
   </head>
   <body>
     <div class="header">
@@ -16,28 +21,14 @@
 
     <div class="main">
       <div class="copy-contents">
-        <h1 class="copy-txt">00(店舗名)の検索結果一覧</h1>
+        <h1 class="copy-txt" id="table_title"></h1>
       </div>
       <div class="contents">
         <div class="store-list">
-          <table class="store" border="1" width="80%">
+          <table class="store" id="result_table" border="1" width="80%">
             <tr>
-              <th>商品名</th>
-              <th>値段</th>
-              <th>チラシへのリンク</th>
-            </tr>
-            <tr>
-              <td>商品名１</td>
-              <td>値段_商品名１</td>
-              <td rowspan="3">チラシのURL</td>
-            </tr>
-            <tr>
-              <td>商品名2</td>
-              <td>値段_商品名2</td>
-            </tr>
-            <tr>
-              <td>商品名2</td>
-              <td>値段_商品名2</td>
+              <th>店名</th>
+              <th>特売商品一覧</th>
             </tr>
           </table>
         </div>
@@ -48,9 +39,5 @@
         </div>
       </div>
     </div>
-    <script
-      async
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjkW8fRqsU3Cclv0_mGMD3lKxnZdW5nRk&callback=initMap"
-    ></script>
   </body>
 </html>

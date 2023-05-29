@@ -18,22 +18,46 @@ function timeOnClick() {
 };
 
 function initMap() {
-    const myLatlng = { lat: 35.027221289790276, lng: 135.78074403227868 };
+
+    function success(pos) {
+        var lat = pos.coords.latitude;
+        var lng = pos.coords.longitude;
+        var latlng = new google.maps.LatLng(lat, lng); //中心の緯度, 経度
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: latlng
+        });
+        makeMarker(map, "現在地", "現在地", lat, lng);
+
+    }
+
+    function fail(error) {
+        alert('位置情報の取得に失敗しました。エラーコード：' + error.code);
+        var latlng = new google.maps.LatLng(35.027221289790276, 135.78074403227868); //京大
+        var map = new google.maps.Map(document.getElementById('maps'), {
+            zoom: 10,
+            center: latlng
+        });
+    }
+    navigator.geolocation.getCurrentPosition(success, fail);
+
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 15,
         center: myLatlng,
     });
+}
+
+function makeMarker(map, title, href, lat, lng) {
     const marker = new google.maps.Marker({
-        position: myLatlng,
+        position: { lat: lat, lng: lng },
         map,
-        title: "here!",
+        title: title,
     });
-    const contentString = "You are here!";
+    const contentString = href;
     const infowindow = new google.maps.InfoWindow({
         content: contentString,
-        arialabel: "here",
+        arialabel: title,
     });
-
     marker.addListener("click", () => {
         infowindow.open({
             anchor: marker,
@@ -41,9 +65,9 @@ function initMap() {
         });
     });
     marker.addListener("closeclick", () => {
-        infowindow.close({
-        });
+        infowindow.close({});
     });
+    return marker;
 }
 
 window.initMap = initMap;

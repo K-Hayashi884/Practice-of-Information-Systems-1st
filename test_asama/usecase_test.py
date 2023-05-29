@@ -22,6 +22,17 @@ class ItemRequest:
         self.length = length
         self.name = name
 
+class StoreRequest:
+    latitude: float
+    longitude: float
+    length: float
+    name: str
+    def __init__(self, latitude:float, longitude:float, length:float, name:str):
+        self.latitude = latitude
+        self.longitude = longitude
+        self.length = length
+        self.name = name
+
 class Store:
     name:str
     latitude:str
@@ -106,7 +117,7 @@ def calc_simirality(ingredients:list[str], items:list[tuple[str,int]]):
             if ingredient in item[0] or item[0] in ingredient:
                 score += 1
                 store_list.append((ingredient, item[1]))
-    score /= min(7,len(ingredients))
+    score /= min(10,len(ingredients))
     return score, store_list
 
 # 最適なレシピを求める
@@ -249,6 +260,20 @@ def get_items_by_name(request):
         stores[i].items = items
         if len(items) > 0:
             result.append(stores[i])
+    return result
+
+# 店情報の一覧を求める
+def get_stores_by_name(request):
+    store_name = request.name
+    stores = get_store_info(StoreInfoRequest(
+        latitude=request.latitude,
+        longitude=request.longitude,
+        length=request.length
+    ))
+    result = []
+    for i, store in enumerate(stores):
+        if store_name in store.name or store.name in store_name:
+            result.append(store)
     return result
 
 # 店名とURLを取得する

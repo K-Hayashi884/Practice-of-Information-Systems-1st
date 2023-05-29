@@ -76,8 +76,6 @@ def get_items_by_name(request):
     longitude = float(request.args.get("longitude", -1.0))
     length = float(request.args.get("length", 100000.0))
     name = request.args.get("name", "None")
-    #if name == "":
-    #    name = "None"
     req = usecase.ItemRequest(
         latitude = latitude,
         longitude = longitude,
@@ -85,5 +83,20 @@ def get_items_by_name(request):
         name = name
     )
     res = usecase.get_items_by_name(req)
+    res = toJson(res)
+    return res
+
+def get_stores_by_name(request):
+    latitude = float(request.args.get("latitude", -1.0))
+    longitude = float(request.args.get("longitude", -1.0))
+    length = float(request.args.get("length", 100000.0))
+    name = request.args.get("name", "None")
+    req = usecase.StoreRequest(
+        latitude = latitude,
+        longitude = longitude,
+        length = length,
+        name = name
+    )
+    res = usecase.get_stores_by_name(req)
     res = toJson(res)
     return res

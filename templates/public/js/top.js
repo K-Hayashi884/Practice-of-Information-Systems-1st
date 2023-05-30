@@ -1,5 +1,20 @@
+window.addEventListener("load", function () {
+    fetchAPI();
+    url = "http://127.0.0.1:8080/store?name=";
 
-// const url =
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataTyoe: JSON,
+        success: function (result) {;
+            initMap(result);
+        },
+        error: function (error) {
+            console.log(`error ${error}`);
+        }
+    });
+})
+
 function timeOnClick() {
     let element = document.getElementById('time');
     var value = element.value.split(":");
@@ -28,33 +43,41 @@ function storeOnClick() {
     window.location.href = (window.location.hostname + window.location.pathname).replace("/top", "/result_store") + `?store_name=${value}`;
 };
 
-function initMap() {
+function fetchAPI(){
+    var sc = document.createElement('script');
+    sc.src = "https://maps.googleapis.com/maps/api/js?key="+conf.apikey+"&callback=initMap";
+    sc.async = true;
+    document.body.appendChild(sc);
+}
+
+function initMap(result) {
+    if(result == null)return;
+    var lat = 35.027221289790276;//京大
+    var lng = 135.78074403227868;
 
     function success(pos) {
-        var lat = pos.coords.latitude;
-        var lng = pos.coords.longitude;
-        var latlng = new google.maps.LatLng(lat, lng); //中心の緯度, 経度
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 15,
-            center: latlng
-        });
-        makeMarker(map, "現在地", "現在地", lat, lng);
-
+        lat = pos.coords.latitude;
+        lng = pos.coords.longitude;
     }
-
     function fail(error) {
         alert('位置情報の取得に失敗しました。エラーコード：' + error.code);
-        var latlng = new google.maps.LatLng(35.027221289790276, 135.78074403227868); //京大
-        var map = new google.maps.Map(document.getElementById('maps'), {
-            zoom: 10,
-            center: latlng
-        });
     }
     navigator.geolocation.getCurrentPosition(success, fail);
 
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 15,
-        center: myLatlng,
+        center: {lat:lat, lng:lng},
+    });
+
+    makeMarker(map, "現在地", "現在地", lat, lng);
+    result.forEach(i => {
+        makeMarker(
+            map,
+            i["name"],
+            '<a href="'+(window.location.hostname + window.location.pathname).replace("/top", "/result_store") + '?store_name='+i["name"]+'">'+i["name"]+"</a>",
+            i["latitude"],
+            i["longitude"]
+        );
     });
 }
 

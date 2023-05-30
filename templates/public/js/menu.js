@@ -1,9 +1,12 @@
 window.addEventListener("load", function () {
+    fetchAPI();
     time = getParam("min")
-    url = "http://127.0.0.1:8080/?time=" + time;
-    append_title(time)
-    append_table(result);
-    initMap(result);
+    if(time=="NaN"){
+        url = "http://127.0.0.1:8080/recipe?time=10000";
+    }else{
+        url = "http://127.0.0.1:8080/recipe?time=" + time;
+    }
+
 
     $.ajax({
         url: url,
@@ -22,12 +25,16 @@ window.addEventListener("load", function () {
 })
 
 function append_title(time) {
-    var title = $('#copy-txt');
-    title.text(`${time}分以内で完成するメニュー`);
+    var title = $('#table_title');
+    if(time=="NaN"){
+        title.text(`おすすめメニュー`);        
+    }else{
+        title.text(`${time}分以内で完成するメニュー`);
+    }
+
 }
 
 function append_table(properties) {
-    //var properties = $.parseJSON(json_file);
     var table = $('#result_table>tbody');
     properties.forEach(i => {
         var recipeName = i["name"];
@@ -62,17 +69,33 @@ function getParam(name) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-
-
+function fetchAPI(){
+    var sc = document.createElement('script');
+    sc.src = "https://maps.googleapis.com/maps/api/js?key="+conf.apikey+"&callback=initMap";
+    sc.async = true;
+    document.body.appendChild(sc);
+}
 
 function initMap(result) {
     if (result == null) return;
-    const myLatlng = { lat: 35.027221289790276, lng: 135.78074403227868 };
+
+    var lat = 35.027221289790276;//京大
+    var lng = 135.78074403227868;
+
+    function success(pos) {
+        lat = pos.coords.latitude;
+        lng = pos.coords.longitude;
+    }
+    function fail(error) {
+        alert('位置情報の取得に失敗しました。エラーコード：' + error.code);
+    }
+    navigator.geolocation.getCurrentPosition(success, fail);
+
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 15,
-        center: myLatlng,
+        center: {lat:lat, lng:lng},
     })
-    makeMarker(map, "現在地", "現在地", myLatlng.lat, myLatlng.lng);
+    makeMarker(map, "現在地", "現在地", lat, lng);
 
     const infoStores = makeStoreInfoArr(result)
     console.log("重複抜きのリスト");

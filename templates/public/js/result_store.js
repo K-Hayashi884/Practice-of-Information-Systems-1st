@@ -61,12 +61,25 @@ function fetchAPI(){
 
 function initMap(result) {
     if(result == null)return;
-    const myLatlng = { lat: 35.027221289790276, lng: 135.78074403227868 };
+
+    var lat = 35.027221289790276;//京大
+    var lng = 135.78074403227868;
+
+    function success(pos) {
+        lat = pos.coords.latitude;
+        lng = pos.coords.longitude;
+    }
+    function fail(error) {
+        alert('位置情報の取得に失敗しました。エラーコード：' + error.code);
+    }
+    navigator.geolocation.getCurrentPosition(success, fail);
+
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 15,
-        center: myLatlng,
+        center: {lat:lat, lng:lng},
     })
-    makeMarker(map,"現在地", "現在地", myLatlng.lat, myLatlng.lng);
+
+    makeMarker(map,"現在地", "現在地", lat, lng);
     result.forEach(i => {
         makeMarker(
             map,
